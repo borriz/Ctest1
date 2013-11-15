@@ -27,7 +27,9 @@ namespace CTest1
         {
             esn_list aresn = new esn_list();
 
-            aresn.get_esn(212, Convert.ToDateTime("01/01/2013"), Convert.ToDateTime("31/12/2013"), naritog, true, false);
+        //    aresn.get_esn(212, Convert.ToDateTime("01/01/2013"), Convert.ToDateTime("31/12/2013"), naritog, true, false);
+
+            aresn.build_esn(1, 2013, 10);
             esn_list arorg = aresn.shrinklist(true);
             int i, j;
             for (i = 1; i < 13; i++)

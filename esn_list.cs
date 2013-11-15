@@ -292,13 +292,19 @@ namespace CTest1
                         switch (tip)
                         {
                             case 0:
-                                this[j]["all_sum"] = this[j]["all_sum"] + r.GetDouble(1);
+                                if (this[j].ContainsKey("all_sum"))
+                                { this[j]["all_sum"] = this[j]["all_sum"] + r.GetDouble(1); }
+                                else { this[j].Add("all_sum", r.GetDouble(1)); };
                                 break;
                             case 1:
-                                this[j]["dbazapf"] = this[j]["dbazapf"] + r.GetDouble(1);
+                                if (this[j].ContainsKey("dbazapf"))
+                                { this[j]["dbazapf"] = this[j]["dbazapf"] + r.GetDouble(1); }
+                                else { this[j].Add("dbazapf", r.GetDouble(1)); };
                                 break;
                             case 2:
-                                this[j]["dmppf"] = this[j]["dmppf"] + r.GetDouble(1);
+                                if (this[j].ContainsKey("dmppf"))
+                                { this[j]["dmppf"] = this[j]["dmppf"] + r.GetDouble(1); }
+                                else { this[j].Add("dmppf", r.GetDouble(1)); };
                                 break;
                         }
                         find = true;
@@ -360,8 +366,8 @@ namespace CTest1
                 //Все суммы
                 string ssql = " SELECT s.sotrid,SUM(s.summa),s.esn_prov,s.schet,s.EX_SPRRASH_ID , dd.squad_id , s.god_v, s.mes_v,s.dts_id "
                + " FROM sumnu s,nachisl n,sotrudn so, dlg_to_struct dd "
-               + " WHERE s.mes_v<=:mes_v AND s.god_v=:god_v AND s.nu_id=n.n_id and dd.unique_id=s.dts_id and dd.squad_id in (select newstruct.st_uid from newstruct where newstruct.st_org=:org) "
-               + " AND NOT n.privid IN (58,581,1001,-98,-99,-50) AND n.u_n=" + " AND n.is_virtual='F'  AND s.sotrid=so.sotrudn_id "
+               + " WHERE s.mes_v<=@mes_v AND s.god_v=@god_v AND s.nu_id=n.n_id and dd.unique_id=s.dts_id and dd.squad_id in (select newstruct.st_uid from newstruct where newstruct.st_org=@org) "
+               + " AND NOT n.privid IN (58,581,1001,-98,-99,-50) AND n.u_n='+' AND n.is_virtual='F'  AND s.sotrid=so.sotrudn_id "
                + " GROUP BY s.sotrid,s.esn_prov,s.schet,s.EX_SPRRASH_ID , dd.squad_id, s.god_v, s.mes_v ,s.dts_id "
                + " HAVING SUM(s.summa) IS NOT NULL and SUM(s.summa)<>0 "
                + " ORDER BY s.sotrid ";
@@ -379,8 +385,8 @@ namespace CTest1
                     // База ПФ
                     ssql = " SELECT s.sotrid,SUM(s.summa),s.esn_prov,s.schet,s.EX_SPRRASH_ID , dd.squad_id , s.god_v, s.mes_v,s.dts_id "
                       + " FROM sumnu s,nachisl n,sotrudn so, dlg_to_struct dd "
-                      + " WHERE s.mes_v<=:mes_v AND s.god_v=:god_v AND s.nu_id=n.n_id and dd.unique_id=s.dts_id and dd.squad_id in (select newstruct.st_uid from newstruct where newstruct.st_org=:org) "
-                      + " AND NOT n.privid IN (58,581,1001,-98,-99,-50) AND n.u_n=" + " AND n.is_virtual='F' AND s.sotrid=so.sotrudn_id "
+                      + " WHERE s.mes_v<=@mes_v AND s.god_v=@god_v AND s.nu_id=n.n_id and dd.unique_id=s.dts_id and dd.squad_id in (select newstruct.st_uid from newstruct where newstruct.st_org=@org) "
+                      + " AND NOT n.privid IN (58,581,1001,-98,-99,-50) AND n.u_n='+' AND n.is_virtual='F' AND s.sotrid=so.sotrudn_id "
                       + " AND n.fp='T'  "
                       + " GROUP BY s.sotrid,s.esn_prov,s.schet,s.EX_SPRRASH_ID , dd.squad_id, s.god_v, s.mes_v ,s.dts_id "
                       + " HAVING SUM(s.summa) IS NOT NULL and SUM(s.summa)<>0 "
@@ -397,9 +403,9 @@ namespace CTest1
 
                     ssql = " SELECT s.sotrid,SUM(s.summa),s.esn_prov,s.schet,s.EX_SPRRASH_ID , dd.squad_id , s.god_v, s.mes_v,s.dts_id "
                       + " FROM sumnu s,nachisl n,sotrudn so, dlg_to_struct dd "
-                      + " WHERE s.mes_v<=:mes_v AND s.god_v=:god_v AND s.nu_id=n.n_id and dd.unique_id=s.dts_id AND n.fp='T' and dd.squad_id in (select newstruct.st_uid from newstruct where newstruct.st_org=:org) "
+                      + " WHERE s.mes_v<=@mes_v AND s.god_v=@god_v AND s.nu_id=n.n_id and dd.unique_id=s.dts_id AND n.fp='T' and dd.squad_id in (select newstruct.st_uid from newstruct where newstruct.st_org=@org) "
                       + " AND(n.privid  in (19,20,21,22,55,306)) AND NOT n.privid IN (-98,-99,-50) AND "
-                      + " and s.sotrid=so.sotrudn_id "
+                      + " s.sotrid=so.sotrudn_id "
                       + " GROUP BY s.sotrid,s.esn_prov,s.schet,s.EX_SPRRASH_ID , dd.squad_id, s.god_v, s.mes_v ,s.dts_id "
                       + " HAVING SUM(s.summa) IS NOT NULL ";
                     sqlReq.CommandText = ssql;
