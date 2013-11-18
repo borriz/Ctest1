@@ -9,7 +9,7 @@ using FirebirdSql.Data.Isql;
 
 namespace CTest1
 {
-    class Esn_Class : Dictionary<string, double>
+    public class Esn_Class : Dictionary<string, double>
     {
         public int id;
         public int sotr_id;
@@ -33,6 +33,47 @@ namespace CTest1
         public int prov924;
         public int sprrash_id;
 
+        public string getstrvalue(string key)
+        {
+            string rez;
+            if (this.ContainsKey(key))
+            { rez = Convert.ToString(this[key]); }
+            else
+            { rez = Convert.ToString(0); };
+            return rez;
+        }
+
+
+        public Esn_Class getcopy()
+        {
+            Esn_Class ecl = new Esn_Class();
+            ecl.id = this.id;
+            ecl.sotr_id = this.sotr_id;
+            ecl.dts_id = this.dts_id;
+            ecl.org_id = this.org_id;
+            ecl.tipsotr = this.tipsotr;
+            ecl.squadid = this.squadid;
+            ecl.year_ = this.year_;
+            ecl.month_ = this.month_;
+            ecl.tag = this.tag;
+
+            ecl.schet = this.schet;
+            ecl.def_prov = this.def_prov;
+            ecl.prov921 = this.prov921;
+            ecl.prov922 = this.prov922;
+            ecl.prov923 = this.prov923;
+            ecl.prov901 = this.prov901;
+            ecl.prov911 = this.prov911;
+            ecl.prov903 = this.prov903;
+            ecl.prov904 = this.prov904;
+            ecl.prov924 = this.prov924;
+            ecl.sprrash_id = this.sprrash_id;
+            foreach (string s in this.Keys)
+            {
+                ecl.Add(s, this[s]);
+            };
+            return ecl;
+        }
 
         public void zapolnesn(bool notsumpfspf2, FbDataReader r, int god, int mes)
         {
@@ -81,7 +122,9 @@ namespace CTest1
 
 
 
-    class esn_list : List<Esn_Class>
+
+
+    public class esn_list : List<Esn_Class>
     {
 
         public esn_list()
@@ -201,9 +244,20 @@ namespace CTest1
                 fbBD.Close();
             }
 
+        }
 
-
-            //   MessageBox.Show(Convert.ToString(this.Count));
+        public esn_list getone(int sotr)
+        {
+            esn_list rez = new esn_list();
+            int i;
+            for (i = 0; i < this.Count; i++)
+            {
+                if (sotr == this[i].sotr_id)
+                {
+                    rez.Add(this[i].getcopy());
+                };
+            };
+            return rez;
         }
 
         public esn_list shrinklist(bool bezsotr)
@@ -259,27 +313,19 @@ namespace CTest1
                     }
                     rez.Add(ecl);
                     find = true;
-
                 }
-
-
-
             }
-
-
-
-
-
             return rez;
         }
 
 
-        public void Zap_arESNall(int tip, int org_id, int imonth, int iyear, FbDataReader r)
+        public void Zap_arESNall(int tip, int org_id, int iyear, int imonth, FbDataReader r)
         {
             bool find = false;
             int j;
             while (r.Read())
             {
+                find = false;
                 for (j = 0; j < this.Count; j++)
                 {
                     if ((this[j].sotr_id == r.GetInt32(0)) &&
@@ -308,6 +354,8 @@ namespace CTest1
                                 break;
                         }
                         find = true;
+
+
                     }
                 }
 

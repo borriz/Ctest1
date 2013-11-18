@@ -25,12 +25,13 @@ namespace CTest1
 
         public void frmMain_refrgrd(bool naritog)
         {
-            esn_list aresn = new esn_list();
+            esn_list aresn0 = new esn_list();
 
-        //    aresn.get_esn(212, Convert.ToDateTime("01/01/2013"), Convert.ToDateTime("31/12/2013"), naritog, true, false);
+            aresn0.get_esn(212, Convert.ToDateTime("01/01/2013"), Convert.ToDateTime("31/12/2013"), naritog, true, false);
+            esn_list aresn = aresn0.getone(aresn0[10].sotr_id);
 
-            aresn.build_esn(1, 2013, 10);
             esn_list arorg = aresn.shrinklist(true);
+
             int i, j;
             for (i = 1; i < 13; i++)
             {
@@ -81,13 +82,13 @@ namespace CTest1
                 stg.Rows[i].Cells[1].Value = Convert.ToString(0);
                 stg.Rows[i].Cells[2].Value = Convert.ToString(arorg[i].year_);
                 stg.Rows[i].Cells[3].Value = Convert.ToString(arorg[i].month_);
-                stg.Rows[i].Cells[4].Value = Convert.ToString(arorg[i]["all_sum"]);
-                stg.Rows[i].Cells[5].Value = Convert.ToString(arorg[i]["dmppf"]);
-                stg.Rows[i].Cells[6].Value = Convert.ToString(arorg[i]["dnepf"]);
-                stg.Rows[i].Cells[7].Value = Convert.ToString(arorg[i]["dbazapf"]);
-                stg.Rows[i].Cells[8].Value = Convert.ToString(arorg[i]["dpf2"]);
-                stg.Rows[i].Cells[9].Value = Convert.ToString(arorg[i]["dpf3"]);
-                stg.Rows[i].Cells[10].Value = Convert.ToString(arorg[i]["dpf1"]);
+                stg.Rows[i].Cells[4].Value = Convert.ToString(arorg[i].getstrvalue("all_sum"));
+                stg.Rows[i].Cells[5].Value = Convert.ToString(arorg[i].getstrvalue("dmppf"));
+                stg.Rows[i].Cells[6].Value = Convert.ToString(arorg[i].getstrvalue("dnepf"));
+                stg.Rows[i].Cells[7].Value = Convert.ToString(arorg[i].getstrvalue("dbazapf"));
+                stg.Rows[i].Cells[8].Value = Convert.ToString(arorg[i].getstrvalue("dpf2"));
+                stg.Rows[i].Cells[9].Value = Convert.ToString(arorg[i].getstrvalue("dpf3"));
+                stg.Rows[i].Cells[10].Value = Convert.ToString(arorg[i].getstrvalue("dpf1"));
             }
 
         }
@@ -167,6 +168,7 @@ namespace CTest1
         private void button2_Click(object sender, EventArgs e)
         {
             frmMain_refrgrd(rbnarit.Checked);
+
         }
 
 
