@@ -100,6 +100,7 @@ namespace CTest1
 
         private void button3_Click(object sender, EventArgs e)
         {
+            RasPF.rasesnall(2013, 12, 1);
             frmMain_refrgrd(rbnarit.Checked);
         }
 

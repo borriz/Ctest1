@@ -33,7 +33,9 @@ namespace CTest1
             esn_list aresn = new esn_list();
             esn_list aresnpred = new esn_list();
 
-            aresnpred.get_esn(212, Convert.ToDateTime("01/09/2013"), Convert.ToDateTime("31/09/2013"), true, true, false);
+
+
+            aresnpred.get_esn(212, new DateTime(god, mes, 1), new DateTime(god, mes, 31), true, true, false);
             aresn.build_esn(212, god, mes);
 
             int i;
